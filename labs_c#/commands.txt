@@ -1,4 +1,4 @@
-search	SIIK
+search			SIIK
 search	PLML
 search	FK3I
 diff	6.8 kDa mitochondrial proteolipid	Alcohol dehydrogenase

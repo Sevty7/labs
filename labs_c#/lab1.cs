@@ -45,6 +45,11 @@ public class lab1
         {
             Console.WriteLine($"Ошибка: {e.Message} ");
         }
+
+        /*foreach (GeneticData item in data)
+        {
+            Console.WriteLine($"Имя: {item.name},\t{item.organism},\t{item.aminoAcids}");
+        }*/
     }
 
     public static void readCommandsAndWrite(string fileNameToRead, string fileNameToWrite)
@@ -59,7 +64,7 @@ public class lab1
                 {
                     string line = sr.ReadLine();
                     counter++;
-                    string[] fragments = line.Split('\t', 3);
+                    string[] fragments = line.Split('\t', StringSplitOptions.RemoveEmptyEntries);
 
                     if (fragments[0].Equals("search"))
                     {
