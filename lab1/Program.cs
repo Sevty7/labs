@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Text;
 using System.IO;
-public class lab1
+
+public class Program
 {
     public struct GeneticData
     {
         public string name;
-        public string organism; 
-        public string aminoAcids;  
+        public string organism;
+        public string aminoAcids;
     }
 
     public static List<GeneticData> data = new List<GeneticData>();
     public static void Main(string[] args)
     {
-        readGeneticData("C:\\Users\\maxim\\VSProjects\\labs_c#\\labs_c#\\sequences.txt");
-        readCommandsAndWrite("C:\\Users\\maxim\\VSProjects\\labs_c#\\labs_c#\\commands.txt", "C:\\Users\\maxim\\VSProjects\\labs_c#\\labs_c#\\genedata.txt");
+        readGeneticData("C:\\Users\\maxim\\VSProjects\\labs_c#\\lab1\\sequences.txt");
+        readCommandsAndWrite("C:\\Users\\maxim\\VSProjects\\labs_c#\\lab1\\commands.txt", "C:\\Users\\maxim\\VSProjects\\labs_c#\\lab1\\genedata.txt");
     }
 
     public static void readGeneticData(string fileName)
@@ -26,7 +27,7 @@ public class lab1
                 while (!sr.EndOfStream)
                 {
                     string line = sr.ReadLine();
-                    string[] fragments = line.Split('\t', 3);
+                    string[] fragments = line.Split('\t', StringSplitOptions.RemoveEmptyEntries);
 
                     GeneticData protein;
                     protein.name = fragments[0];
@@ -45,11 +46,6 @@ public class lab1
         {
             Console.WriteLine($"Ошибка: {e.Message} ");
         }
-
-        /*foreach (GeneticData item in data)
-        {
-            Console.WriteLine($"Имя: {item.name},\t{item.organism},\t{item.aminoAcids}");
-        }*/
     }
 
     public static void readCommandsAndWrite(string fileNameToRead, string fileNameToWrite)
@@ -112,44 +108,44 @@ public class lab1
         StringBuilder encodedString = new StringBuilder();
 
         for (int i = 1; i <= s.Length; i++)
+        {
+            if (i < s.Length && s[i] == s[i - 1])
             {
-                if (i < s.Length && s[i] == s[i - 1])
-                {
-                    counterOfLetters++;
-                }
-                else
-                {
-                    if (counterOfLetters > 2)
-                        encodedString.Append(counterOfLetters).Append(s[i - 1]);
-                    else
-                        encodedString.Append(new string(s[i - 1], counterOfLetters));
-
-                    counterOfLetters = 1;
-                } 
+                counterOfLetters++;
             }
+            else
+            {
+                if (counterOfLetters > 2)
+                    encodedString.Append(counterOfLetters).Append(s[i - 1]);
+                else
+                    encodedString.Append(new string(s[i - 1], counterOfLetters));
+
+                counterOfLetters = 1;
+            }
+        }
 
         return encodedString.ToString();
     }
     public static string decode(string s)
+    {
+        int counterOfLetters = 1;
+        StringBuilder decodedString = new StringBuilder();
+
+        for (int i = 0; i < s.Length; i++)
         {
-            int counterOfLetters = 1;
-            StringBuilder decodedString = new StringBuilder();
-
-            for (int i = 0; i < s.Length; i++)
+            if (char.IsDigit(s[i]))
             {
-                if (char.IsDigit(s[i]))
-                {
-                    counterOfLetters = s[i] - '0';
-                }
-                else
-                {
-                    decodedString.Append(new string(s[i], counterOfLetters));
-                    counterOfLetters = 1;
-                }
+                counterOfLetters = s[i] - '0';
             }
-
-            return decodedString.ToString();
+            else
+            {
+                decodedString.Append(new string(s[i], counterOfLetters));
+                counterOfLetters = 1;
+            }
         }
+
+        return decodedString.ToString();
+    }
 
     public static string search(string aminoAcids)
     {
