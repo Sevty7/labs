@@ -66,28 +66,33 @@ public class lab1
                     counter++;
                     string[] fragments = line.Split('\t', StringSplitOptions.RemoveEmptyEntries);
 
-                    if (fragments[0].Equals("search"))
+                    switch (fragments[0])
                     {
-                        sw.WriteLine($"{counter.ToString("D3")}\t{"search"}\t{decode(fragments[1])}");
-                        string s = search(fragments[1]);
+                        case ("search"):
+                            sw.WriteLine($"{counter.ToString("D3")}\t{"search"}\t{decode(fragments[1])}");
+                            string s = search(fragments[1]);
 
-                        sw.WriteLine("organism\t\t\tprotein");
-                        sw.WriteLine(search(fragments[1]));
-                        sw.WriteLine("================================================");
-                    }
-                    else if (fragments[0].Equals("diff"))
-                    {
-                        sw.WriteLine($"{counter.ToString("D3")}\t{"diff"}\t{fragments[1]}\t{fragments[2]}");
-                        sw.WriteLine("amino-acids difference:");
-                        sw.WriteLine(diff(fragments[1], fragments[2]));
-                        sw.WriteLine("================================================");
-                    }
-                    else if (fragments[0].Equals("mode"))
-                    {
-                        sw.WriteLine($"{counter.ToString("D3")}\t{"mode"}\t{fragments[1]}");
-                        sw.WriteLine("amino-acid occurs:");
-                        sw.WriteLine(mode(fragments[1]));
-                        sw.WriteLine("================================================");
+                            sw.WriteLine("organism\t\t\tprotein");
+                            sw.WriteLine(search(fragments[1]));
+                            sw.WriteLine("================================================");
+
+                            break;
+
+                        case ("diff"):
+                            sw.WriteLine($"{counter.ToString("D3")}\t{"diff"}\t{fragments[1]}\t{fragments[2]}");
+                            sw.WriteLine("amino-acids difference:");
+                            sw.WriteLine(diff(fragments[1], fragments[2]));
+                            sw.WriteLine("================================================");
+
+                            break;
+
+                        case ("mode"):
+                            sw.WriteLine($"{counter.ToString("D3")}\t{"mode"}\t{fragments[1]}");
+                            sw.WriteLine("amino-acid occurs:");
+                            sw.WriteLine(mode(fragments[1]));
+                            sw.WriteLine("================================================");
+
+                            break;
                     }
                 }
             }
