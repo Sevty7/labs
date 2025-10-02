@@ -2,7 +2,7 @@ Cat and Mouse
 
 Cat	Mouse	Distance
 --------------------
- 0	 2			0
+ ??	 2
  6	 11			5
  12	 11			1
  12	 5			7

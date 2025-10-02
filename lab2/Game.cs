@@ -32,7 +32,7 @@
                     case "M":
                         sizeOfMove = int.Parse(commands[1]);
 
-                        if (mouse.location == 0) mouse.distanceTraveled -= sizeOfMove;
+                        if (!mouse.isInGame()) mouse.distanceTraveled -= sizeOfMove;
                         mouse.distanceTraveled += Math.Abs(sizeOfMove);
 
                         mouse.location = modSize(sizeOfMove + mouse.location, size);
@@ -41,14 +41,21 @@
                     case "C":
                         sizeOfMove = int.Parse(commands[1]);
 
-                        if (cat.location == 0) cat.distanceTraveled -= sizeOfMove;
+                        if (!cat.isInGame()) cat.distanceTraveled -= sizeOfMove;
                         cat.distanceTraveled += Math.Abs(sizeOfMove);
 
                         cat.location = modSize(sizeOfMove + cat.location, size);
                         break;
 
                     case "P":
-                        sw.WriteLine($"{getCurrentPositions()}\t\t\t{getDistance()}");
+                        if (getDistance() != 0) sw.WriteLine($"{getCurrentPositions()}\t\t\t{getDistance()}");
+
+                        else sw.WriteLine($"{getCurrentPositions()}");
+
+                        break;
+
+                    default:
+                        Console.WriteLine("Incorect data in file");
                         break;
                 }
 
@@ -64,22 +71,25 @@
 
     private string getCurrentPositions()
     {
+        if (!cat.isInGame()) return $" ??\t {mouse.location}";
+        if (!mouse.isInGame()) return $" {cat.location}\t ??";
+
         return $" {cat.location}\t {mouse.location}";
     }
 
     private int getDistance()
     {
-        if (cat.location != 0 && mouse.location != 0) return Math.Abs(cat.location - mouse.location);
+        if (cat.isInGame() && mouse.isInGame()) return Math.Abs(cat.location - mouse.location);
         return 0;
     }
 
     private bool isCatch()
     {
-        if (cat.location != 0 || mouse.location != 0) return cat.location == mouse.location;
+        if (cat.isInGame() || mouse.isInGame()) return cat.location == mouse.location;
         return false;
     }
 
-    int modSize(int x, int size)
+    private int modSize(int x, int size)
     {
         int mod = (x % size + size) % size;
         if (mod == 0) mod = size;

@@ -9,4 +9,10 @@
         this.name = name;
         this.location = 0;
     }
+
+    public bool isInGame()
+    {
+        if (this.location == 0) return false;
+        return true;
+    }
 }
