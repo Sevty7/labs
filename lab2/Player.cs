@@ -2,6 +2,7 @@
 {
     public string name;
     public int location;
+    public int distanceTraveled;
 
     public Player(string name)
     {

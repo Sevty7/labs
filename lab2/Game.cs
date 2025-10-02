@@ -3,8 +3,6 @@
     public int size;
     public Player cat;
     public Player mouse;
-    public int countDistanceCat;
-    public int countDistanceMouse;
     public static string inputFileName;
     public static string outputFileName;
 
@@ -34,8 +32,8 @@
                     case "M":
                         sizeOfMove = int.Parse(commands[1]);
 
-                        if (mouse.location == 0) countDistanceMouse -= sizeOfMove;
-                        countDistanceMouse += Math.Abs(sizeOfMove);
+                        if (mouse.location == 0) mouse.distanceTraveled -= sizeOfMove;
+                        mouse.distanceTraveled += Math.Abs(sizeOfMove);
 
                         mouse.location = modSize(sizeOfMove + mouse.location, size);
                         break;
@@ -43,8 +41,8 @@
                     case "C":
                         sizeOfMove = int.Parse(commands[1]);
 
-                        if (cat.location == 0) countDistanceCat -= sizeOfMove;
-                        countDistanceCat += Math.Abs(sizeOfMove);
+                        if (cat.location == 0) cat.distanceTraveled -= sizeOfMove;
+                        cat.distanceTraveled += Math.Abs(sizeOfMove);
 
                         cat.location = modSize(sizeOfMove + cat.location, size);
                         break;
@@ -57,7 +55,7 @@
             }
             sw.WriteLine("--------------------\n\n");
             sw.WriteLine("Distance traveled:\tMouse\tCat");
-            sw.WriteLine($"\t\t\t\t\t{countDistanceMouse}\t\t{countDistanceCat}\n");
+            sw.WriteLine($"\t\t\t\t\t{mouse.distanceTraveled}\t\t{cat.distanceTraveled}\n");
 
             if (isCatch()) sw.WriteLine($"Mouse caught at: {mouse.location}");
             else sw.WriteLine("Mouse evaded Cat");
