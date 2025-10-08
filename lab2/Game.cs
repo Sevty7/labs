@@ -71,8 +71,13 @@
 
     private string getCurrentPositions()
     {
+
+        if (!cat.isInGame() && !mouse.isInGame()) return $" ??\t ??";
+
         if (!cat.isInGame()) return $" ??\t {mouse.location}";
+
         if (!mouse.isInGame()) return $" {cat.location}\t ??";
+
 
         return $" {cat.location}\t {mouse.location}";
     }
