@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using System.Text.RegularExpressions;
 
 namespace lab3
 {
@@ -36,7 +37,8 @@ namespace lab3
                 .OrderBy(s => s.ToString().Length)
                 .ToList();
         }
-        public List<string> FindUniqueWordsInQuestionsOfLength(int length)//!
+
+        public List<string> FindUniqueWordsInQuestionsOfLength(int length)
         {
             var unique = new List<string>();
 
@@ -69,43 +71,40 @@ namespace lab3
             return unique;
         }
 
-        public void DeleteWordsOfLengthStartingWithConsonant(int length)//regex
+        public void DeleteWordsOfLengthStartingWithConsonant(int length)
         {
+            string letters = "[A-Za-zА-Яа-яЁё]";
+            string consonants = "[^AEIOUaeiouАЕЁИОУЫЭЮЯаеёиоуыэюя]";
+
+            string pattern = $"^{consonants}{letters}{{{length - 1}}}$";
+            
+            Regex rgx = new Regex(pattern);
+
             foreach (var s in sentences)
             {
                 for (int i = s.tokens.Count - 1; i >= 0; i--)
                 {
                     if (s.tokens[i] is Word w)
                     {
-                        if (w.length == length && StartsWithConsonant(w.content))
+                        if (rgx.IsMatch(w.content))
+                        {
                             s.tokens.RemoveAt(i);
+                        }
                     }
                 }
             }
         }
 
-        private bool StartsWithConsonant(string word)
+        public void ReplaceWordsOfLength(int targetLength, string replacement)
         {
-            if (string.IsNullOrEmpty(word)) return false;
-            char c = word[0];
-            if (!char.IsLetter(c)) return false;
-
-            string latinVowels = "aeiouAEIOU";
-            string cyrVowels = "аеёиоуыэюяАЕЁИОУЫЭЮЯ";
-
-            return latinVowels.IndexOf(c) < 0 && cyrVowels.IndexOf(c) < 0;
-        }
-
-        public void ReplaceWordsInSentence(int sentenceIndex, int targetLength, string replacement)
-        {
-            if (sentenceIndex < 0 || sentenceIndex >= sentences.Count) return;
-            var s = sentences[sentenceIndex];
-
-            for (int i = 0; i < s.tokens.Count; i++)
+            foreach (var s in sentences)
             {
-                if (s.tokens[i] is Word w && w.length == targetLength)
+                for (int i = 0; i < s.tokens.Count; i++)
                 {
-                    s.tokens[i] = new Word(replacement);
+                    if (s.tokens[i] is Word w && w.length == targetLength)
+                    {
+                        s.tokens[i] = new Word(replacement);
+                    }
                 }
             }
         }

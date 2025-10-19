@@ -15,9 +15,20 @@ namespace lab3
                 var token = tokens[i];
                 result.Append(token.ToString());
 
-                if (token is Word && i < tokens.Count - 1 && tokens[i + 1] is Word)
+                if (i < tokens.Count - 1 && tokens[i + 1] is Word)
                 {
-                    result.Append(' ');
+                    if (token is Word)
+                    {
+                        result.Append(' ');
+                    }
+
+                    else if (token is Punctuation p && Punctuation.IsPunctuation(p.symbol))
+                    {
+                        if (p.symbol != '(' && p.symbol != '"' && p.symbol != '\'')
+                        {
+                            result.Append(' ');
+                        }
+                    }
                 }
             }
             return result.ToString();
