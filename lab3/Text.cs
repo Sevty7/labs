@@ -7,6 +7,9 @@ namespace lab3
     {
         public List<Sentence> sentences { get; private set; } = new List<Sentence>();
 
+        public int paragraphsBeforeFirst = 0;
+        public Dictionary<int, int> paragraphsAfter = new Dictionary<int, int>();
+
         public void AddSentence(Sentence sentence)
         {
             sentences.Add(sentence);
@@ -15,14 +18,29 @@ namespace lab3
         public override string ToString()
         {
             var result = new StringBuilder();
-            foreach (var sentence in sentences)
+
+            for (int i = 0; i < paragraphsBeforeFirst; i++)
+                result.Append("\r\n");
+
+            for (int i = 0; i < sentences.Count; i++)
             {
-                if (result.Length > 0)
-                    result.Append(' ');
-                result.Append(sentence.ToString());
+                result.Append(sentences[i].ToString());
+
+                if (paragraphsAfter.ContainsKey(i))
+                {
+                    for (int k = 0; k < paragraphsAfter[i]; k++)
+                        result.Append("\r\n");
+                }
+                else
+                {
+                    if (i < sentences.Count - 1)
+                        result.Append(' ');
+                }
             }
+
             return result.ToString();
         }
+
 
         public List<Sentence> GetSentencesByWordCountAscending()
         {
