@@ -1,11 +1,16 @@
-﻿namespace lab3
+﻿using System.Xml.Serialization;
+
+namespace lab3
 {
-    class Punctuation : Token
+    [XmlType("punctuation")]
+    public class Punctuation : Token
     {
         public char symbol
         {
             get { return value[0]; }
         }
+            
+        public Punctuation() : base() { }
 
         public Punctuation(char symbol) : base(symbol.ToString())
         {

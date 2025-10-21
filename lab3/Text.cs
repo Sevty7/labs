@@ -1,15 +1,21 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
+using System.Xml.Serialization;
 
 namespace lab3
 {
-    class Text
+    [XmlRoot("text")]
+    public class Text
     {
-        public List<Sentence> sentences { get; private set; } = new List<Sentence>();
+        [XmlElement("sentence")]
+        public List<Sentence> sentences { get; set; } = new List<Sentence>();
 
+        [XmlIgnore]
         public int paragraphsBeforeFirst = 0;
+        [XmlIgnore]
         public Dictionary<int, int> paragraphsAfter = new Dictionary<int, int>();
 
+        public Text() { }
         public void AddSentence(Sentence sentence)
         {
             sentences.Add(sentence);

@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace lab3
 {
-    class TextParser
+    public class TextParser
     {
         public static Text Parse(string text)
         {

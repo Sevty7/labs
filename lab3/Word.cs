@@ -1,6 +1,9 @@
-﻿namespace lab3
+﻿using System.Xml.Serialization;
+
+namespace lab3
 {
-    class Word : Token
+    [XmlType("word")]
+    public class Word : Token
     {
         public string content
         {
@@ -10,6 +13,8 @@
         {
             get { return value.Length; }
         }
+
+        public Word() : base() { }
 
         public Word(string content) : base(content)
         {

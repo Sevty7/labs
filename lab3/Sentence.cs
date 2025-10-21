@@ -1,11 +1,15 @@
 ﻿using System.Text;
+using System.Xml.Serialization;
 
 namespace lab3
 {
-    class Sentence
+    public class Sentence
     {
-        public List<Token> tokens { get; private set; } = new List<Token>();
+        [XmlElement("word", Type = typeof(Word))]
+        [XmlElement("punctuation", Type = typeof(Punctuation))]
+        public List<Token> tokens { get; set; } = new List<Token>();
 
+        public Sentence() { }
         public override string ToString()
         {
             var result = new StringBuilder();

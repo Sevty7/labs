@@ -1,6 +1,6 @@
 ﻿namespace lab3 
 {
-    class Program
+    public class Program
     {
         public static void Main(string[] args)
         {
@@ -50,6 +50,10 @@
             text.RemoveStopWords("C:\\Users\\maxim\\VSProjects\\labs_c#\\lab3\\stopwords_en.txt");
             Console.WriteLine("6. После удаления стоп-слов:");
             Console.WriteLine(text.ToString());
+
+            //7
+            text = TextParser.Parse(stringText);
+            TextSerializer.Serialize(text, "C:\\Users\\maxim\\VSProjects\\labs_c#\\lab3\\text.xml");
         }
     }
 }
