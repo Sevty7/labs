@@ -51,8 +51,20 @@ namespace lab3
         public List<Sentence> GetSentencesByWordCountAscending()
         {
             return sentences
-                 .OrderBy(s => s.tokens.Count(t => t is Word))
+                 .OrderBy(countWords)
                  .ToList();
+        }
+
+        public int countWords(Sentence s)
+        {
+            int count = 0;
+            
+            foreach (var token in s.tokens)
+            {
+                if (token is Word) count++;
+            }
+
+            return count;
         }
 
         public List<Sentence> GetSentencesByLengthAscending()

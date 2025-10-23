@@ -27,6 +27,7 @@ namespace lab3
 
                 Sentence currentSentence = new Sentence();
                 StringBuilder wordBuilder = new StringBuilder();
+                bool inQuotes = false;
 
                 for (int i = 0; i < s.Length; i++)
                 {
@@ -46,16 +47,59 @@ namespace lab3
 
                         if (Punctuation.IsPunctuation(c))
                         {
-                            currentSentence.tokens.Add(new Punctuation(c));
+                            bool IsOpeningQuote(char ch) => ch == '«' || ch == '“' || ch == '"';
+                            bool IsClosingQuote(char ch) => ch == '»' || ch == '”' || ch == '"';
+
+                            if (IsOpeningQuote(c) && !inQuotes)
+                            {
+                                inQuotes = true;
+                                currentSentence.tokens.Add(new Punctuation(c));
+                                continue;
+                            }
+
+                            if (IsClosingQuote(c) && inQuotes)
+                            {
+                                inQuotes = false;
+                                currentSentence.tokens.Add(new Punctuation(c));
+                                continue;
+                            }
 
                             if (Punctuation.IsSentenceEnd(c))
                             {
-                                if (currentSentence.tokens.Count > 0)
+                                if (inQuotes)
                                 {
-                                    resultText.AddSentence(currentSentence);
-                                    currentSentence = new Sentence();
+                                    if (i + 1 < s.Length && IsClosingQuote(s[i + 1]))
+                                    {
+                                        currentSentence.tokens.Add(new Punctuation(c));
+                                        currentSentence.tokens.Add(new Punctuation(s[i + 1]));
+                                        inQuotes = false;
+                                        i++;
+                                        if (currentSentence.tokens.Count > 0)
+                                        {
+                                            resultText.AddSentence(currentSentence);
+                                            currentSentence = new Sentence();
+                                        }
+                                        continue;
+                                    }
+                                    else
+                                    {
+                                        currentSentence.tokens.Add(new Punctuation(c));
+                                        continue;
+                                    }
+                                }
+                                else
+                                {
+                                    currentSentence.tokens.Add(new Punctuation(c));
+                                    if (currentSentence.tokens.Count > 0)
+                                    {
+                                        resultText.AddSentence(currentSentence);
+                                        currentSentence = new Sentence();
+                                    }
+                                    continue;
                                 }
                             }
+
+                            currentSentence.tokens.Add(new Punctuation(c));
                         }
                     }
                 }

@@ -5,9 +5,18 @@ namespace lab3
 {
     public class Sentence
     {
-        [XmlElement("word", Type = typeof(Word))]
-        [XmlElement("punctuation", Type = typeof(Punctuation))]
+        [XmlIgnore]
         public List<Token> tokens { get; set; } = new List<Token>();
+
+        [XmlElement("word")]
+        public List<Word> WordsOnly
+        {
+            get
+            {
+                return tokens.OfType<Word>().ToList();
+            }
+            set { }
+        }
 
         public Sentence() { }
         public override string ToString()

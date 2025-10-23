@@ -17,15 +17,15 @@
             Console.WriteLine(text.ToString());
             Console.WriteLine();
 
-            // 1
-            Console.WriteLine("1. Предложения по количеству слов:");
-            foreach (var s in text.GetSentencesByWordCountAscending()) Console.WriteLine(s.ToString());
-            Console.WriteLine();
+            //// 1
+            //Console.WriteLine("1. Предложения по количеству слов:");
+            //foreach (var s in text.GetSentencesByWordCountAscending()) Console.WriteLine(s.ToString());
+            //Console.WriteLine();
 
-            // 2
-            Console.WriteLine("2. Предложения по длине:");
-            foreach (var s in text.GetSentencesByLengthAscending()) Console.WriteLine(s.ToString());
-            Console.WriteLine();
+            //// 2
+            //Console.WriteLine("2. Предложения по длине:");
+            //foreach (var s in text.GetSentencesByLengthAscending()) Console.WriteLine(s.ToString());
+            //Console.WriteLine();
 
             // 3
             Console.WriteLine("3. Уникальные слова из вопросительных предложений (длина=3):");
