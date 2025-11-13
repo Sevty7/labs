@@ -4,7 +4,7 @@ namespace lab3
 {
     [XmlType("word")]
     public class Word : Token
-    {
+    {      
         public string content
         {
             get { return value; }

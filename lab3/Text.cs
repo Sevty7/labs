@@ -171,5 +171,41 @@ namespace lab3
                 }
             }
         }
+
+        public SortedDictionary<string, (int Count, SortedSet<int> Lines)> BuildConcordance()
+        {
+            var concordance = new SortedDictionary<string, (int Count, SortedSet<int> Lines)>();
+            for (int i = 0; i < sentences.Count; i++)
+            {
+                int lineNumber = i + 1;
+                foreach (var token in sentences[i].tokens)
+                {
+                    if (token is Word w)
+                    {
+                        string word = w.content.Trim().ToLower();
+
+                        if (string.IsNullOrEmpty(word)) continue;
+
+                        if (!concordance.ContainsKey(word))
+                            concordance[word] = (0, new SortedSet<int>());
+
+                        var entry = concordance[word];
+                        entry.Count++;
+                        entry.Lines.Add(lineNumber);
+                        concordance[word] = entry;
+                    }
+                }
+            }
+            return concordance;
+        }
+
+        public string ConcordanceToString()
+        {
+            var concord = BuildConcordance();
+            var sb = new StringBuilder();
+            foreach (var kv in concord)
+                sb.AppendLine($"{kv.Key} {kv.Value.Count}: {string.Join(" ", kv.Value.Lines)}");
+            return sb.ToString();
+        }
     }
 }
