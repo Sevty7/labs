@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Runtime.CompilerServices;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 
@@ -16,6 +17,7 @@ namespace lab3
         public Dictionary<int, int> paragraphsAfter = new Dictionary<int, int>();
 
         public Text() { }
+
         public void AddSentence(Sentence sentence)
         {
             sentences.Add(sentence);
@@ -172,12 +174,17 @@ namespace lab3
             }
         }
 
-        public SortedDictionary<string, (int Count, SortedSet<int> Lines)> BuildConcordance()
+        public SortedDictionary<string, (int Count, SortedSet<int> Lines, List<string> words)> BuildConcordance()
         {
-            var concordance = new SortedDictionary<string, (int Count, SortedSet<int> Lines)>();
+            var concordance = new SortedDictionary<string, (int Count, SortedSet<int> Lines, List<string> words)>();
+            int lineNumber = 1;
             for (int i = 0; i < sentences.Count; i++)
             {
-                int lineNumber = i + 1;
+                if (!paragraphsAfter.ContainsKey(i)) 
+                    continue;
+                else
+                    lineNumber = i;
+
                 foreach (var token in sentences[i].tokens)
                 {
                     if (token is Word w)
@@ -187,15 +194,43 @@ namespace lab3
                         if (string.IsNullOrEmpty(word)) continue;
 
                         if (!concordance.ContainsKey(word))
-                            concordance[word] = (0, new SortedSet<int>());
+                            concordance[word] = (0, new SortedSet<int>(), new List<string>());
 
                         var entry = concordance[word];
                         entry.Count++;
                         entry.Lines.Add(lineNumber);
+
                         concordance[word] = entry;
                     }
                 }
             }
+
+            for (int i = 0; i < sentences.Count; i++)
+            {
+                foreach (var token in sentences[i].tokens)
+                {
+                    if (token is Word w)
+                    {
+                        string originalWord = w.content.Trim();
+                        string lowerWord = originalWord.ToLower();
+
+                        if (string.IsNullOrEmpty(lowerWord)) continue;
+
+                        foreach (var key in concordance.Keys.ToList())
+                        {
+                            if (lowerWord.StartsWith(key) && !lowerWord.Equals(key))
+                            {
+                                var entry = concordance[key];
+                                entry.words.Add(originalWord);
+
+                                concordance[key] = entry;
+                            }
+                        }
+                    }
+                }
+            }
+
+
             return concordance;
         }
 
@@ -204,7 +239,7 @@ namespace lab3
             var concord = BuildConcordance();
             var sb = new StringBuilder();
             foreach (var kv in concord)
-                sb.AppendLine($"{kv.Key} {kv.Value.Count}: {string.Join(" ", kv.Value.Lines)}");
+                sb.AppendLine($"{kv.Key} {kv.Value.Count}: {string.Join(" ", kv.Value.Lines)}; {string.Join(", ", kv.Value.words)}");
             return sb.ToString();
         }
     }
