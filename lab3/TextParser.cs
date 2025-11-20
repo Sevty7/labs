@@ -70,6 +70,18 @@ namespace lab3
                                 {
                                     if (i + 1 < s.Length && IsClosingQuote(s[i + 1]))
                                     {
+                                        int j = i + 2;
+                                        while (j < s.Length && char.IsWhiteSpace(s[j])) j++;
+
+                                        if (j < s.Length && (s[j] == '-' || s[j] == '—'))
+                                        {
+                                            currentSentence.tokens.Add(new Punctuation(c));
+                                            currentSentence.tokens.Add(new Punctuation(s[i + 1]));
+                                            inQuotes = false;
+                                            i++; 
+                                            continue;
+                                        }
+
                                         currentSentence.tokens.Add(new Punctuation(c));
                                         currentSentence.tokens.Add(new Punctuation(s[i + 1]));
                                         inQuotes = false;

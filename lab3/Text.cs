@@ -173,10 +173,10 @@ namespace lab3
                 }
             }
         }
-
-        public SortedDictionary<string, (int Count, SortedSet<int> Lines, List<string> words)> BuildConcordance()
+       
+        public SortedDictionary<string, (int Count, SortedSet<int> Lines)> BuildConcordance()
         {
-            var concordance = new SortedDictionary<string, (int Count, SortedSet<int> Lines, List<string> words)>();
+            var concordance = new SortedDictionary<string, (int Count, SortedSet<int> Lines)>();
             int lineNumber = 1;
             for (int i = 0; i < sentences.Count; i++)
             {
@@ -194,7 +194,7 @@ namespace lab3
                         if (string.IsNullOrEmpty(word)) continue;
 
                         if (!concordance.ContainsKey(word))
-                            concordance[word] = (0, new SortedSet<int>(), new List<string>());
+                            concordance[word] = (0, new SortedSet<int>());
 
                         var entry = concordance[word];
                         entry.Count++;
@@ -204,33 +204,6 @@ namespace lab3
                     }
                 }
             }
-
-            for (int i = 0; i < sentences.Count; i++)
-            {
-                foreach (var token in sentences[i].tokens)
-                {
-                    if (token is Word w)
-                    {
-                        string originalWord = w.content.Trim();
-                        string lowerWord = originalWord.ToLower();
-
-                        if (string.IsNullOrEmpty(lowerWord)) continue;
-
-                        foreach (var key in concordance.Keys.ToList())
-                        {
-                            if (lowerWord.StartsWith(key) && !lowerWord.Equals(key))
-                            {
-                                var entry = concordance[key];
-                                entry.words.Add(originalWord);
-
-                                concordance[key] = entry;
-                            }
-                        }
-                    }
-                }
-            }
-
-
             return concordance;
         }
 
@@ -238,9 +211,28 @@ namespace lab3
         {
             var concord = BuildConcordance();
             var sb = new StringBuilder();
+            string currentHeader = null;
+
             foreach (var kv in concord)
-                sb.AppendLine($"{kv.Key} {kv.Value.Count}: {string.Join(" ", kv.Value.Lines)}; {string.Join(", ", kv.Value.words)}");
+            {
+                string key = kv.Key;
+
+                if (string.IsNullOrEmpty(key)) continue;
+
+                string header = char.ToUpper(key[0]).ToString();
+
+                if (currentHeader != header)
+                {
+                    sb.AppendLine(header);
+                    currentHeader = header;
+                }
+
+                sb.AppendLine($"{key} {kv.Value.Count}: {string.Join(", ", kv.Value.Lines)}");
+            }
+
             return sb.ToString();
         }
+
+
     }
 }
