@@ -1,4 +1,5 @@
 ﻿using System.Xml.Serialization;
+using lab5.Entities;
 
 namespace lab5
 {
@@ -33,8 +34,6 @@ namespace lab5
 
         public void SortCarriagesByComfort() { Carriages.Sort(); }
         public void SortCarriagesByPassengers() { Carriages.Sort(Carriage.ComparePassengers); }
-        public void SortCarriagesByBaggage() { Carriages.Sort(Carriage.CompareByBaggage); }
-
 
         public void SaveToXml(string filePath) 
         {

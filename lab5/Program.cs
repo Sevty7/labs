@@ -1,4 +1,4 @@
-﻿namespace alab5
+﻿namespace lab5
 {
     public class Program
     {
