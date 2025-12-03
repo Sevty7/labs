@@ -1,4 +1,4 @@
-﻿namespace lab5.Entities.FreightCarriages
+﻿namespace lab5.Entities.Carriages.FreightCarriages
 {
     public interface IFreightCarriage
     {

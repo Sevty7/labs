@@ -1,13 +1,14 @@
 ﻿using System.Xml.Serialization;
-using lab5.Entities.PassengerCarriages;
+using lab5.Entities.Carriages.PassengerCarriages;
+using lab5.Entities.Carriages.FreightCarriages;
 
-namespace lab5.Entities
+namespace lab5.Entities.Carriages
 {
-    [XmlInclude(typeof(PassengerCarriages.CoupeCarriage))]
-    [XmlInclude(typeof(PassengerCarriages.EconomCarriage))]
-    [XmlInclude(typeof(PassengerCarriages.DiningCarriage))]
-    [XmlInclude(typeof(FreightCarriages.HopperCarriage))]
-    [XmlInclude(typeof(FreightCarriages.TankCarriage))]
+    [XmlInclude(typeof(CoupeCarriage))]
+    [XmlInclude(typeof(EconomCarriage))]
+    [XmlInclude(typeof(DiningCarriage))]
+    [XmlInclude(typeof(HopperCarriage))]
+    [XmlInclude(typeof(TankCarriage))]
     public abstract class Carriage : IComparable<Carriage>
     {
         public abstract double EmptyWeight { get; }
@@ -38,7 +39,7 @@ namespace lab5.Entities
 
         protected void ValidatePassengers()
         {
-            if (this is PassengerCarriages.IPassengerCarriage ticketed && Passengers > ticketed.TotalSeats)
+            if (this is IPassengerCarriage ticketed && Passengers > ticketed.TotalSeats)
                 throw new InvalidOperationException(
                     $"Current passengers ({Passengers}) exceed new total seats ({ticketed.TotalSeats}).");
         }
@@ -49,18 +50,9 @@ namespace lab5.Entities
             return Comfort.CompareTo(other.Comfort);
         }
 
-        public static int ComparePassengers(Carriage x, Carriage y)
-        {
-            if (x == null && y == null) return 0;
-            if (x == null) return -1;
-            if (y == null) return 1;
-
-            return x.Passengers.CompareTo(y.Passengers);
-        }
-
         public virtual bool IsOverloaded() =>
-            this is PassengerCarriages.IPassengerCarriage ticketed ? Passengers > ticketed.TotalSeats :
-            this is FreightCarriages.IFreightCarriage freight ? freight.CurrentLoad > LoadCapacity :
+            this is IPassengerCarriage ticketed ? Passengers > ticketed.TotalSeats :
+            this is IFreightCarriage freight ? freight.CurrentLoad > LoadCapacity :
             false;
 
         public override string ToString()

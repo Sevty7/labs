@@ -1,4 +1,4 @@
-﻿namespace lab5.Entities.FreightCarriages
+﻿namespace lab5.Entities.Carriages.FreightCarriages
 {
     public class HopperCarriage : Carriage, IFreightCarriage //Сыпучие грузы
     {
@@ -15,6 +15,7 @@
             {
                 if (value < 0) throw new ArgumentException("CurrentLoad < 0");
                 _currentLoad = value;
+                IsOverloaded();
             }
         }
 
@@ -25,7 +26,7 @@
         }
         public HopperCarriage() : base(ComfortLevel.None) { }
 
-        public override bool IsOverloaded() => CurrentLoad > LoadCapacity;
+        public override bool IsOverloaded() => GrainLoad > LoadCapacity;
 
         public override string ToString()
         {

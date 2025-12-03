@@ -1,4 +1,4 @@
-﻿namespace lab5.Entities.FreightCarriages
+﻿namespace lab5.Entities.Carriages.FreightCarriages
 {
     public class TankCarriage : Carriage, IFreightCarriage //Жидкости
     {
@@ -14,6 +14,7 @@
             {
                 if (value < 0) throw new ArgumentException("CurrentLoad < 0");
                 _currentLoad = value;
+                IsOverloaded();
             }
         }
         public double OilVolume
@@ -24,7 +25,7 @@
 
         public TankCarriage() : base(ComfortLevel.None) { }
 
-        public override bool IsOverloaded() => CurrentLoad > LoadCapacity;
+        public override bool IsOverloaded() => OilVolume > LoadCapacity;
 
         public override string ToString()
         {

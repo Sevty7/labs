@@ -1,39 +1,57 @@
 ﻿using System.Xml.Serialization;
-using lab5.Entities;
+using lab5.Entities.Carriages;
 
-namespace lab5
+namespace lab5.Entities.Trains
 {
-    public class Train
+    public abstract class Train
     {
         public List<Carriage> Carriages { get; set; } = new List<Carriage>();
-        public int TotalPassengers => Carriages.Sum(c => c.Passengers);
+        public string TrainNumber { get; set; }
+        public string Route { get; set; }
+
         public Train() { }
 
-        public void AddCarriage(Carriage carriage) 
+        protected Train(string trainNumber, string route)
+        {
+            TrainNumber = trainNumber;
+            Route = route;
+        }
+
+        public abstract bool IsCarriageCompatible(Carriage carriage);
+
+        public virtual void AddCarriage(Carriage carriage) 
         { 
             if (carriage != null) 
                 Carriages.Add(carriage); 
         }
 
-        public void RemoveCarriage(int index)
+        public virtual void RemoveCarriage(int index)
         {
             if (index < 0 || index >= Carriages.Count)
                 return;
             Carriages.RemoveAt(index);
         }
 
-        public void RemoveCarriage(Carriage value)
+        public virtual void RemoveCarriage(Carriage value)
         {
             if (Carriages.Contains(value))
                 Carriages.Remove(value);
         }
 
-        public int CalculateTotalPassengers() => Carriages.Sum(c => c.Passengers);
+        public virtual int CalculateTotalPassengers()
+        {
+            return Carriages.Sum(c => c.Passengers);
+        }
 
-        public List<Carriage> FindCarriagesByPassengerRange(int min, int max) => Carriages.Where(c => c.Passengers >= min && c.Passengers <= max).ToList();
+        public virtual void SortCarriagesByComfort() 
+        { 
+            Carriages.Sort(); 
+        }
 
-        public void SortCarriagesByComfort() { Carriages.Sort(); }
-        public void SortCarriagesByPassengers() { Carriages.Sort(Carriage.ComparePassengers); }
+        public List<Carriage> FindCarriagesByPassengerRange(int min, int max)
+        {
+            return Carriages.Where(c => c.Passengers >= min && c.Passengers <= max).ToList();
+        }
 
         public void SaveToXml(string filePath) 
         {

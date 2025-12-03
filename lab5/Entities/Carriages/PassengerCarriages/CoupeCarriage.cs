@@ -1,4 +1,4 @@
-﻿namespace lab5.Entities.PassengerCarriages
+﻿namespace lab5.Entities.Carriages.PassengerCarriages
 {
     public class CoupeCarriage : Carriage, IPassengerCarriage
     {
