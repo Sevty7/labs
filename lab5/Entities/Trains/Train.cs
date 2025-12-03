@@ -38,21 +38,6 @@ namespace lab5.Entities.Trains
                 Carriages.Remove(value);
         }
 
-        public virtual int CalculateTotalPassengers()
-        {
-            return Carriages.Sum(c => c.Passengers);
-        }
-
-        public virtual void SortCarriagesByComfort() 
-        { 
-            Carriages.Sort(); 
-        }
-
-        public List<Carriage> FindCarriagesByPassengerRange(int min, int max)
-        {
-            return Carriages.Where(c => c.Passengers >= min && c.Passengers <= max).ToList();
-        }
-
         public void SaveToXml(string filePath) 
         {
             if (string.IsNullOrWhiteSpace(filePath))

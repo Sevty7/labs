@@ -11,6 +11,17 @@ namespace lab5.Entities.Trains
 
         public FreightTrain(string trainNumber, string route) : base(trainNumber, route) { }
 
+        public override void AddCarriage(Carriage carriage)
+        {
+            if (!IsCarriageCompatible(carriage))
+                throw new InvalidOperationException($"Freight train cannot accept carriage of type {carriage.GetType().Name}. Only freight types are allowed.");
+
+            if (IsLocomotiveOverloaded())
+                throw new InvalidOperationException("Cannot add carriage: Locomotive capacity exceeded.");
+           
+            base.AddCarriage(carriage);
+        }
+
         public override bool IsCarriageCompatible(Carriage carriage)
         {
             return carriage is HopperCarriage ||

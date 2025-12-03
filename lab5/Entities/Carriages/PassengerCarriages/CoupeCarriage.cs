@@ -15,7 +15,9 @@
             {
                 if (value < 0) throw new ArgumentException("CoupeCount < 0");
                 _coupeCount = value;
-                ValidatePassengers();
+
+                if (IsOverloaded())
+                    throw new InvalidOperationException($"Current passengers ({Passengers}) exceed new total seats ({TotalSeats}).");
             }
         }
 
@@ -27,7 +29,9 @@
             {
                 if (value < 0) throw new ArgumentException("SeatsPerCoupe < 0");
                 _seatsPerCoupe = value;
-                ValidatePassengers();
+
+                if (IsOverloaded())
+                    throw new InvalidOperationException($"Current passengers ({Passengers}) exceed new total seats ({TotalSeats}).");
             }
         }
         public int GetAvailableSeats() => TotalSeats - Passengers;

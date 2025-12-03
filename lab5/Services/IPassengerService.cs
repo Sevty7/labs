@@ -1,5 +1,4 @@
 ﻿using lab5.Entities.Trains;
-using lab5.Entities.Carriages.PassengerCarriages;
 
 namespace lab5.Services
 {

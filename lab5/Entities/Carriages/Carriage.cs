@@ -37,13 +37,6 @@ namespace lab5.Entities.Carriages
             Comfort = comfort;
         }
 
-        protected void ValidatePassengers()
-        {
-            if (this is IPassengerCarriage ticketed && Passengers > ticketed.TotalSeats)
-                throw new InvalidOperationException(
-                    $"Current passengers ({Passengers}) exceed new total seats ({ticketed.TotalSeats}).");
-        }
-
         public int CompareTo(Carriage other)
         {
             if (other == null) return 1;

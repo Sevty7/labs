@@ -14,7 +14,9 @@
             {
                 if (value < 0) throw new ArgumentException("CurrentLoad < 0");
                 _currentLoad = value;
-                IsOverloaded();
+
+                if (IsOverloaded())
+                    throw new InvalidOperationException($"New load ({value}t) exceeds maximum capacity ({LoadCapacity}t).");
             }
         }
         public double OilVolume

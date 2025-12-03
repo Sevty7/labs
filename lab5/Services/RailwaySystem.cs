@@ -1,5 +1,4 @@
 ﻿using lab5.Entities.Carriages;
-using lab5.Entities.Carriages.PassengerCarriages;
 using lab5.Entities.Trains;
 
 namespace lab5.Services
@@ -32,7 +31,7 @@ namespace lab5.Services
 
         public List<Train> GetAllTrains()
         {
-
+            return new List<Train>();
         }
 
         public bool IsTrainOverloaded(string trainNumber) { return false; }
@@ -40,7 +39,7 @@ namespace lab5.Services
         //Passenger
         public List<Train> GetAvailableTrains()
         {
-
+            return new List<Train>();
         }
 
         public void BuyTicket(Train train, int carriageIndex) 
@@ -50,7 +49,7 @@ namespace lab5.Services
 
         public Dictionary<string, decimal> GetDiningMenu(string trainNumber)
         {
-            
+            return new Dictionary<string, decimal>();
         }
     }
 }

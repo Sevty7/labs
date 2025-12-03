@@ -17,7 +17,9 @@
             {
                 if (value < 0) throw new ArgumentException("UpperSeats < 0");
                 _upperSeats = value;
-                ValidatePassengers();
+
+                if (IsOverloaded())
+                    throw new InvalidOperationException($"Current passengers ({Passengers}) exceed new total seats ({TotalSeats}).");
             }
         }
 
@@ -29,7 +31,9 @@
             {
                 if (value < 0) throw new ArgumentException("LowerSeats < 0");
                 _lowerSeats = value;
-                ValidatePassengers();
+
+                if (IsOverloaded())
+                    throw new InvalidOperationException($"Current passengers ({Passengers}) exceed new total seats ({TotalSeats}).");
             }
         }
 

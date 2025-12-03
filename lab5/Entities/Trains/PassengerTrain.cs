@@ -1,10 +1,12 @@
-﻿using lab5.Entities.Carriages;
+﻿using System.Numerics;
+using lab5.Entities.Carriages;
 using lab5.Entities.Carriages.PassengerCarriages;
 
 namespace lab5.Entities.Trains
 {
     public class PassengerTrain : Train
     {
+        public int TotalPassengers => Carriages.Sum(c => c.Passengers);
         public decimal TotalRevenue { get; private set; } = 0;
 
         public PassengerTrain() : base() { }
@@ -16,6 +18,24 @@ namespace lab5.Entities.Trains
             return carriage is CoupeCarriage ||
                    carriage is EconomCarriage ||
                    carriage is DiningCarriage;
+        }
+
+        public override void AddCarriage(Carriage carriage)
+        {
+            if (!IsCarriageCompatible(carriage)) 
+                throw new InvalidOperationException($"Passenger train cannot accept carriage of type {carriage.GetType().Name}. Only passenger types are allowed.");
+
+            base.AddCarriage(carriage);
+        }
+
+        public void SortCarriagesByComfort()
+        {
+            Carriages.Sort();
+        }
+
+        public List<Carriage> FindCarriagesByPassengerRange(int min, int max)
+        {
+            return Carriages.Where(c => c.Passengers >= min && c.Passengers <= max).ToList();
         }
 
         public void SellTicket(IPassengerCarriage carriage)
