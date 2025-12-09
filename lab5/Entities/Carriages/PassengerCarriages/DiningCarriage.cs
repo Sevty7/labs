@@ -13,6 +13,13 @@ namespace lab5.Entities.Carriages.PassengerCarriages
             { "Cutlet with Puree", 3m }
         };
 
+        [XmlElement("Menu")]
+        public List<MenuItem> MenuItems
+        {
+            get => Menu.Select(kv => new MenuItem { Key = kv.Key, Value = kv.Value }).ToList();
+            set => Menu = value.ToDictionary(i => i.Key, i => i.Value);
+        }
+
 
         public override double EmptyWeight => 60.0;
         public override double LoadCapacity => 2.0;
@@ -34,6 +41,14 @@ namespace lab5.Entities.Carriages.PassengerCarriages
         public override string ToString()
         {
             return $"{base.ToString()} Tables = {Tables}, LoadCapacity = {LoadCapacity};";
+        }
+
+        public class MenuItem
+        {
+            [XmlAttribute]
+            public string Key { get; set; } = "";
+            [XmlAttribute]
+            public decimal Value { get; set; }
         }
     }
 }

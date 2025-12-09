@@ -1,4 +1,6 @@
-﻿namespace lab5.Entities.Carriages.FreightCarriages
+﻿using System.Xml.Serialization;
+
+namespace lab5.Entities.Carriages.FreightCarriages
 {
     public class TankCarriage : Carriage, IFreightCarriage //Жидкости
     {
@@ -6,7 +8,9 @@
         public override double LoadCapacity => 70.0;
         public override int Passengers => 0;
 
+        [XmlIgnore]
         private double _currentLoad = 0;
+        [XmlIgnore]
         public double CurrentLoad
         {
             get => _currentLoad;

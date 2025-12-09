@@ -9,7 +9,7 @@ namespace lab5.Entities.Trains
 
         public FreightTrain() : base() { }
 
-        public FreightTrain(string trainNumber, string route) : base(trainNumber, route) { }
+        public FreightTrain(string trainNumber, Route route) : base(trainNumber, route) { }
 
         public override void AddCarriage(Carriage carriage)
         {

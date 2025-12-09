@@ -1,17 +1,36 @@
 ﻿using System.Xml.Serialization;
 using lab5.Entities.Carriages;
+using lab5.Entities.Carriages.PassengerCarriages;
+using lab5.Entities.Carriages.FreightCarriages;
+
 
 namespace lab5.Entities.Trains
 {
+    [XmlInclude(typeof(PassengerTrain))]
+    [XmlInclude(typeof(FreightTrain))]
+    [XmlInclude(typeof(CoupeCarriage))]
+    [XmlInclude(typeof(EconomCarriage))]
+    [XmlInclude(typeof(DiningCarriage))]
+    [XmlInclude(typeof(HopperCarriage))]
+    [XmlInclude(typeof(TankCarriage))]
     public abstract class Train
     {
+        [XmlArray("Carriages")]
+        [XmlArrayItem(typeof(CoupeCarriage))]
+        [XmlArrayItem(typeof(EconomCarriage))]
+        [XmlArrayItem(typeof(DiningCarriage))]
+        [XmlArrayItem(typeof(HopperCarriage))]
+        [XmlArrayItem(typeof(TankCarriage))]
         public List<Carriage> Carriages { get; set; } = new List<Carriage>();
         public string TrainNumber { get; set; }
-        public string Route { get; set; }
 
+        public enum TrainState { Ready, InTransit, Arrived, Maintenance, Cancelled }
+        public TrainState State { get; set; } = TrainState.Ready;
+
+        public Route Route { get; set; }
         public Train() { }
 
-        protected Train(string trainNumber, string route)
+        protected Train(string trainNumber, Route route)
         {
             TrainNumber = trainNumber;
             Route = route;
@@ -38,49 +57,9 @@ namespace lab5.Entities.Trains
                 Carriages.Remove(value);
         }
 
-        public void SaveToXml(string filePath) 
+        public override string ToString()
         {
-            if (string.IsNullOrWhiteSpace(filePath))
-                throw new ArgumentException("File path is null or empty.", nameof(filePath));
-
-            try
-            {
-                XmlSerializer serializer = new XmlSerializer(typeof(Train));
-                using (StreamWriter sw = new StreamWriter(filePath))
-                {
-                    serializer.Serialize(sw, this);
-                }
-            }
-            catch (InvalidOperationException e)
-            {
-                throw new InvalidOperationException("Failed to serialize Train to XML.", e);
-            }
-        }
-
-        public static Train LoadFromXml(string filePath) 
-        {
-            if (string.IsNullOrWhiteSpace(filePath))
-                throw new ArgumentException("File path is null or empty.", nameof(filePath));
-
-            if (!File.Exists(filePath))
-                throw new FileNotFoundException($"File not found: {filePath}", filePath);
-
-            try
-            {
-                XmlSerializer deSerializer = new XmlSerializer(typeof(Train));
-                using (StreamReader sr = new StreamReader(filePath))
-                {
-                    var obj = deSerializer.Deserialize(sr);
-                    if (obj is Train)
-                        return (Train)obj;
-                    else
-                        throw new InvalidDataException("XML file does not contain Train data.");
-                }
-            }
-            catch (InvalidOperationException e)
-            {
-                throw new InvalidOperationException("Failed to deserialize XML to Train.", e);
-            }
+            return $"Train {TrainNumber}, State: {State}, Route: {Route}, Carriages: {Carriages.Count}";
         }
     }
 }

@@ -1,9 +1,12 @@
-﻿namespace lab5.Entities.Carriages.PassengerCarriages
+﻿using System.Xml.Serialization;
+
+namespace lab5.Entities.Carriages.PassengerCarriages
 {
     public class CoupeCarriage : Carriage, IPassengerCarriage
     {
         public override double EmptyWeight => 58.0;
         public override double LoadCapacity => 0;
+        [XmlIgnore]
         public int TotalSeats => CoupeCount * SeatsPerCoupe;
         public decimal BaseTicketPrice { get; set; } = 10m;
 

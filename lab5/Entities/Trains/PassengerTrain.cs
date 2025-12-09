@@ -1,5 +1,4 @@
-﻿using System.Numerics;
-using lab5.Entities.Carriages;
+﻿using lab5.Entities.Carriages;
 using lab5.Entities.Carriages.PassengerCarriages;
 
 namespace lab5.Entities.Trains
@@ -7,11 +6,11 @@ namespace lab5.Entities.Trains
     public class PassengerTrain : Train
     {
         public int TotalPassengers => Carriages.Sum(c => c.Passengers);
-        public decimal TotalRevenue { get; private set; } = 0;
+        public decimal TotalRevenue { get; set; } = 0;
 
         public PassengerTrain() : base() { }
 
-        public PassengerTrain(string trainNumber, string route) : base(trainNumber, route) { }
+        public PassengerTrain(string trainNumber, Route route) : base(trainNumber, route) { }
 
         public override bool IsCarriageCompatible(Carriage carriage)
         {
@@ -38,17 +37,12 @@ namespace lab5.Entities.Trains
             return Carriages.Where(c => c.Passengers >= min && c.Passengers <= max).ToList();
         }
 
-        public void SellTicket(IPassengerCarriage carriage)
+        public void ReserveSeat(IPassengerCarriage carriage)
         {
             if (carriage.GetAvailableSeats() <= 0)
                 throw new InvalidOperationException("No available seats in this carriage.");
-
-            decimal price = carriage.CalculateTicketPrice();
-
             (carriage as Carriage).Passengers += 1;
-            TotalRevenue += price;
-
-            Console.WriteLine($"Ticket sold for {price}. Available seats: {carriage.GetAvailableSeats()}");
+            Console.WriteLine($"Seat reserved. Available seats: {carriage.GetAvailableSeats()}");
         }
 
         public void ProcessMealOrder(DiningCarriage dining, decimal price)

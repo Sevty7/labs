@@ -1,4 +1,6 @@
-﻿namespace lab5.Entities.Carriages.FreightCarriages
+﻿using System.Xml.Serialization;
+
+namespace lab5.Entities.Carriages.FreightCarriages
 {
     public class HopperCarriage : Carriage, IFreightCarriage //Сыпучие грузы
     {
@@ -6,8 +8,9 @@
         public override double LoadCapacity => 66.0;
 
         public override int Passengers => 0;
-
+        [XmlIgnore]
         private double _currentLoad = 0;
+        [XmlIgnore]
         public double CurrentLoad
         {
             get => _currentLoad;

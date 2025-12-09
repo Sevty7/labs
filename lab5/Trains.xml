@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RailwaySystem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Trains>
+    <PassengerTrain>
+      <Carriages>
+        <CoupeCarriage>
+          <Passengers>2</Passengers>
+          <Comfort>High</Comfort>
+          <BaseTicketPrice>10</BaseTicketPrice>
+          <CoupeCount>9</CoupeCount>
+          <SeatsPerCoupe>4</SeatsPerCoupe>
+        </CoupeCarriage>
+        <DiningCarriage>
+          <Passengers>0</Passengers>
+          <Comfort>Standard</Comfort>
+          <Menu Key="Borsch" Value="5" />
+          <Menu Key="Tea" Value="1" />
+          <Menu Key="Cutlet with Puree" Value="3" />
+          <Tables>12</Tables>
+        </DiningCarriage>
+      </Carriages>
+      <TrainNumber>1</TrainNumber>
+      <State>InTransit</State>
+      <Route>
+        <StartStation>a</StartStation>
+        <EndStation>b</EndStation>
+        <Distance>5</Distance>
+        <Duration>P10D</Duration>
+      </Route>
+      <TotalRevenue>1</TotalRevenue>
+    </PassengerTrain>
+  </Trains>
+</RailwaySystem>
