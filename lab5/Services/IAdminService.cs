@@ -17,5 +17,7 @@ namespace lab5.Services
         List<Train> GetAllTrains();
         bool IsTrainOverloaded(string trainNumber);
         void SetTrainState(string trainNumber, TrainState state);
+        void SortTrainCarriagesByComfort(string trainNumber);
+        List<Carriage> FindCarriagesByPassengerRange(string trainNumber, int min, int max);
     }
 }

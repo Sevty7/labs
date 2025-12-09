@@ -267,6 +267,8 @@ namespace lab5
                 Console.WriteLine("6. Set train state");
                 Console.WriteLine("7. Save system state");
                 Console.WriteLine("8. Load system state");
+                Console.WriteLine("9. Sort train carriages by comfort");
+                Console.WriteLine("10. Find carriages by passenger range");
                 Console.WriteLine("0. Back");
                 Console.Write("Choose an option: ");
 
@@ -410,6 +412,49 @@ namespace lab5
 
                         service.LoadTrainsFromXml(path);
                         Console.WriteLine("System state loaded.");
+                    }
+                    else if (key == "9")
+                    {
+                        Console.Write("Enter train number to sort carriages: ");
+                        string trainNum = Console.ReadLine();
+
+                        service.SortTrainCarriagesByComfort(trainNum);
+                        Console.WriteLine($"Carriages for train {trainNum} sorted by comfort level.");
+                        Console.WriteLine(service.GetTrainByNumber(trainNum).ToString());
+                    }
+                    else if (key == "10")
+                    {
+                        Console.Write("Enter train number to search carriages: ");
+                        string trainNum = Console.ReadLine();
+
+                        Console.Write("Enter minimum number of passengers: ");
+                        if (!int.TryParse(Console.ReadLine(), out int min))
+                        {
+                            Console.WriteLine("Invalid minimum value.");
+                            continue;
+                        }
+
+                        Console.Write("Enter maximum number of passengers: ");
+                        if (!int.TryParse(Console.ReadLine(), out int max))
+                        {
+                            Console.WriteLine("Invalid maximum value.");
+                            continue;
+                        }
+
+                        var foundCarriages = service.FindCarriagesByPassengerRange(trainNum, min, max);
+
+                        if (foundCarriages.Count == 0)
+                        {
+                            Console.WriteLine($"No carriages found in train {trainNum} with passenger count between {min} and {max}.");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Found {foundCarriages.Count} carriages:");
+                            foreach (var carriage in foundCarriages)
+                            {
+                                Console.WriteLine($"- Type: {carriage.GetType().Name}, Current Passengers: {carriage.Passengers}");
+                            }
+                        }
                     }
                     else
                     {

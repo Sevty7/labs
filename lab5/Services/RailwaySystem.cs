@@ -129,6 +129,27 @@ namespace lab5.Services
             train.State = state;
         }
 
+        public void SortTrainCarriagesByComfort(string trainNumber)
+        {
+            var train = GetTrainByNumber(trainNumber);
+            if (!(train is PassengerTrain pt))
+            {
+                throw new InvalidOperationException("Sorting by comfort is only possible for passenger trains.");
+            }
+            pt.SortCarriagesByComfort();
+        }
+
+        public List<Carriage> FindCarriagesByPassengerRange(string trainNumber, int min, int max)
+        {
+            var train = GetTrainByNumber(trainNumber);
+            if (!(train is PassengerTrain pt))
+            {
+                throw new InvalidOperationException("Searching by passenger range is only possible for passenger trains.");
+            }
+
+            return pt.FindCarriagesByPassengerRange(min, max);
+        }
+
 
         //Passenger
         public List<Train> GetAvailableTrains()
