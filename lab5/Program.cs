@@ -118,7 +118,6 @@ namespace lab5
                     return false;
                 }
 
-                // Add to dictionary and append to file
                 passengerAccounts.Add(username, password);
                 try
                 {
