@@ -1,0 +1,42 @@
+﻿using System.Xml.Serialization;
+
+namespace lab6.Entities.Carriages.FreightCarriages
+{
+    public class HopperCarriage : Carriage, IFreightCarriage //Сыпучие грузы
+    {
+        public override double EmptyWeight => 24.0;
+        public override double LoadCapacity => 66.0;
+
+        public override int Passengers => 0;
+        [XmlIgnore]
+        private double _currentLoad = 0;
+        [XmlIgnore]
+        public double CurrentLoad
+        {
+            get => _currentLoad;
+            set
+            {
+                if (value < 0) throw new ArgumentException("CurrentLoad < 0");
+                _currentLoad = value;
+
+                if (IsOverloaded())
+                    throw new InvalidOperationException($"New load ({value}t) exceeds maximum capacity ({LoadCapacity}t).");
+                
+            }
+        }
+
+        public double GrainLoad
+        {
+            get => CurrentLoad;
+            set => CurrentLoad = value;
+        }
+        public HopperCarriage() : base(ComfortLevel.None) { }
+
+        public override bool IsOverloaded() => GrainLoad > LoadCapacity;
+
+        public override string ToString()
+        {
+            return $"{base.ToString()} LoadCapacity = {LoadCapacity}t, GrainLoad = {GrainLoad}t;";
+        }
+    }
+}
